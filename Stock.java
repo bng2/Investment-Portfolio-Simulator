@@ -30,4 +30,9 @@ public class Stock implements Instruments {
   public String getName() {
     return name;
   }
+
+  @Override
+  public String toString() {
+    return "(Stock)Name: " + name + ",Price: " + price; 
+  }
 }

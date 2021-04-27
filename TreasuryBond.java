@@ -30,4 +30,9 @@ public class TreasuryBond implements Instruments {
   public String getName() {
     return name;
   }
+
+  @Override
+  public String toString() {
+    return "(Treasury Balance)Name: " + name + ",Price: " + price; 
+  }
 }

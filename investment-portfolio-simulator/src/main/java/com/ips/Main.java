@@ -1,5 +1,6 @@
 public class Main {
   public static void main(String[] args) {
+    //
     User test = new User("John", 10000.0);
     test.viewBalance();
     System.out.println("Adding $500 to our balance");

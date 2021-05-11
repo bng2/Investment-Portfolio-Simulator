@@ -2,10 +2,6 @@ import java.util.*;
 import java.lang.Math;
 import java.io.*;
 import java.util.Locale;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONArray;
-import org.json.simple.parser.ParseException;
-import org.json.simple.parser.JSONParser;
 
 public class User implements Serializable {
   Map<Instruments, Double> portfolio = new HashMap<>();

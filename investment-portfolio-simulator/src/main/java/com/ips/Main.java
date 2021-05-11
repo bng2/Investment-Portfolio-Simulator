@@ -3,9 +3,9 @@ import java.io.*;
 import java.util.Locale;
 
 public class Main {
-
+  // Loads and returns the saved User
   public static User load() {
-    User u = new User("",0);
+    User u = new User("", 0);
     try {
       final FileInputStream fileInputStream1 = new FileInputStream(new File("user.ser"));
       final ObjectInputStream objectInputStream1 = new ObjectInputStream(fileInputStream1);
@@ -18,6 +18,7 @@ public class Main {
     return u;
   }
 
+  // Saves the User via Java Serializable
   public static void save(User input) {
     try {
       final FileOutputStream fileOutputStream1 = new FileOutputStream(new File("user.ser"));
@@ -31,7 +32,7 @@ public class Main {
     }
   }
 
-  //
+  // Initializes a new User with a starting balance of $10,000
   public static User setup() {
     return new User("Main", 10000.0);
   }
@@ -45,31 +46,36 @@ public class Main {
     // TODO: Take user input -> Scanner
     // TODO: Finnhub API
 
+    System.out.println("Welcome to the Investment Portfolio Simulator!");
+
     User mainUser;
     File f = new File("user.ser");
     if (f.exists()) {
       mainUser = load();
-    }
-    else {
+      System.out.println("Your old portfolio has been loaded in.");
+    } else {
       mainUser = setup();
+      System.out.println("You have started a new portfolio with the starting balance of $10,000.");
     }
 
     Scanner myObj = new Scanner(System.in);
     int option = 0;
-
-    while(option < 12) {
+    
+    while (option < 12) {
+      System.out.println("What would you like to do?");
       System.out.println("1: Check Balance");
       System.out.println("2: Add Balance");
-      System.out.println("3: View Portfolio");
-      System.out.println("4: View Stock");
-      System.out.println("5: Buy Stock");
-      System.out.println("6: Sell Stock");
-      System.out.println("7: Buy Bond");
-      System.out.println("8: Sell Bond");
-      System.out.println("9: Deposit");
-      System.out.println("10: Withdraw");
-      System.out.println("11: Reset User (Warning: sets all holdings to default!)");
-      System.out.println("12: Exit");
+      System.out.println("3: Subtract Balance");
+      System.out.println("4: View Portfolio");
+      System.out.println("5: View Stock");
+      System.out.println("6: Buy Stock");
+      System.out.println("7: Sell Stock");
+      System.out.println("8: Buy Bond");
+      System.out.println("9: Sell Bond");
+      System.out.println("10: Deposit");
+      System.out.println("11: Withdraw");
+      System.out.println("12: Reset User (Warning: sets all holdings to default!)");
+      System.out.println("13: Exit");
       String symbol = myObj.nextLine();
       option = Integer.parseInt(symbol);
       String ticker = "";
@@ -77,72 +83,96 @@ public class Main {
       
       switch (option) {
         case 1: // 1: Check Balance
-            System.out.println(mainUser.viewBalance());
-            break;
-        case 3: // 3: View Portfolio
-            System.out.println(mainUser.viewPortfolio());
-            break;
-        case 5: // 5: Buy Stock
-            System.out.println("Please input a stock ticker you would like to buy (ex: AAPL)");
-            ticker = myObj.nextLine();
-            System.out.println("Please input the amount you would like to buy");
-            amount = myObj.nextLine();
-            System.out.println(mainUser.buyStock(ticker, Double.parseDouble(amount)));
-            break;
-        case 6: // 6: Sell Stock
-            System.out.println("Please input a stock ticker you would like to sell (ex: AAPL)");
-            ticker = myObj.nextLine();
-            System.out.println("Please input the amount you would like to sell");
-            amount = myObj.nextLine();
-            System.out.println(mainUser.sellStock(ticker, Double.parseDouble(amount)));
-            break;
-        case 7: // 7: Buy Bond"
-            System.out.println("Please input a stock ticker you would like to buy (ex: AAPL)");
-            ticker = myObj.nextLine();
-            System.out.println("Please input the amount you would like to buy");
-            amount = myObj.nextLine();
-            System.out.println(mainUser.buyBond(ticker, Integer.parseInt(amount)));
-            break;
-        case 8: // 8: Sell Bond
-            System.out.println("Please input a stock ticker you would like to sell (ex: AAPL)");
-            ticker = myObj.nextLine();
-            System.out.println("Please input the amount you would like to sell");
-            amount = myObj.nextLine();
-            System.out.println(mainUser.sellBond(ticker, Integer.parseInt(amount)));
-            break;
-        case 12: // 12: Exit
-            System.out.println("Thank you for using the Investment Portfolio Simulator!");
-            System.out.println("Thank you for using the Investment Portfolio Simulator!");
-            break;
-            
+          mainUser.viewBalance();
+          break;
+        case 2: // 2: Add Balance
+          System.out.println("Please input the amount you would like to add to your balance:");
+          amount = myObj.nextLine();
+          mainUser.addBalance(Double.parseDouble(amount));
+          mainUser.viewBalance();
+          break;
+        case 3: // 3: Subtract Balance
+          System.out.println("Please input the amount you would like to subtract from your balance:");
+          amount = myObj.nextLine();
+          mainUser.subtractBalance(Double.parseDouble(amount));
+          mainUser.viewBalance();
+          break;
+        case 4: // 4: View Portfolio
+          mainUser.viewPortfolio();
+          break;
+        case 5: // 5: View Stock
+          // TODO
+          System.out.println("To be implemented");
+          System.out.println("View Stock Case");
+          break;
+        case 6: // 6: Buy Stock
+          // TODO
+          System.out.println("To be implemented");
+          System.out.println("View Stock Case");
+          System.out.println("Please input a stock ticker you would like to buy (ex: AAPL)");
+          ticker = myObj.nextLine();
+          System.out.println("Please input the amount you would like to buy");
+          amount = myObj.nextLine();
+          //System.out.println(mainUser.buyStock(ticker, Double.parseDouble(amount)));
+          break;
+        case 7: // 7: Sell Stock
+          // TODO
+          System.out.println("To be implemented");
+          System.out.println("Please input a stock ticker you would like to sell (ex: AAPL)");
+          ticker = myObj.nextLine();
+          System.out.println("Please input the amount you would like to sell");
+          amount = myObj.nextLine();
+          //System.out.println(mainUser.sellStock(ticker, Double.parseDouble(amount)));
+          break;
+        case 8: // 8: Buy Bond"
+          // TODO
+          System.out.println("To be implemented");
+          System.out.println("Buy Bond Case");
+          break;
+        case 9: // 9: Sell Bond
+          // TODO
+          System.out.println("To be implemented");
+          System.out.println("Sell Bond Case");
+          break;
+        case 10: // 10: Deposit
+          // TODO
+          System.out.println("To be implemented");
+          System.out.println("Deposit into savings Case");
+          break;
+        case 11: // 11: Withdraw
+          // TODO
+          System.out.println("To be implemented");
+          System.out.println("Withdraw from savings Case");
+          break;
+        case 12: // 12: Reset User
+          mainUser = setup();
+          System.out.println("Your portfolio have been reset to the initial state.");
+          break;
+        case 13: // 13: Exit
+          save(mainUser);
+          System.out.println("Your portfolio has been saved!");
+          System.out.println("Thank you for using the Investment Portfolio Simulator!");
+          break;
       }
+      System.out.println("");
     }
     /*
-    mainUser.viewBalance();
-    mainUser.viewPortfolio();
-    //mainUser.addBalance(500.0);
-
-    save(mainUser);
-    */
-
-    /*
-    test.viewBalance();
     System.out.println("Adding $500 to our balance");
     test.addBalance(500);
     test.viewBalance();
-
+    
     Stock AAPL = new Stock("AAPL", 132.54, 0.20, 0.002);
     Stock TSLA = new Stock("TLSA", 684.90, 0.00, 0.00);
     Stock AMZN = new Stock("AMZN", 3386.49, 0.00, 0.00);
-
+    
     System.out.println("Purchasing 2 shares of AAPL and 1 share of TSLA.");
-
+    
     test.buyStock(AAPL, 1);
     test.buyStock(TSLA, 1);
     test.buyStock(AAPL, 1);
     test.buyStock(AAPL, 1);
     test.sellStock(AAPL, 1);
-
+    
     test.viewPortfolio();
     test.viewBalance();
     test.totalPortfolioValue();

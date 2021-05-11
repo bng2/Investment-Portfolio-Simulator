@@ -1,6 +1,6 @@
 import java.io.*;
 
-interface Instruments implements Serializable{
+interface Instruments extends Serializable {
   public void display();
   public void setPrice(double amount);
   public double getPrice();

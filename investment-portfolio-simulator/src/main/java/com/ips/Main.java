@@ -68,19 +68,19 @@ public class Main {
     
     // User Interface
     while (option < 13) { // Selecting any option besides 13 will keep the program running
-      System.out.println("What would you like to do?");
+      System.out.println("Enter the number of the action you would like to perform.");
       System.out.println("1: Check Balance");
       System.out.println("2: Add Balance");
       System.out.println("3: Subtract Balance");
       System.out.println("4: View Portfolio");
-      System.out.println("5: View Stock");
+      System.out.println("5: View Stock Information");
       System.out.println("6: Buy Stock");
       System.out.println("7: Sell Stock");
       System.out.println("8: Buy Bond");
       System.out.println("9: Sell Bond");
-      System.out.println("10: Deposit");
-      System.out.println("11: Withdraw");
-      System.out.println("12: Reset User (Warning: sets all holdings to default!)");
+      System.out.println("10: Deposit into Savings");
+      System.out.println("11: Withdraw from Savings");
+      System.out.println("12: Reset User (Warning: Resets entire portfolio!)");
       System.out.println("13: Exit");
       String symbol = myObj.nextLine();
       option = Integer.parseInt(symbol);
@@ -107,12 +107,21 @@ public class Main {
           mainUser.viewPortfolio();
           break;
         case 5: // 5: View Stock
-          // TODO
-          System.out.println("To be implemented");
-          System.out.println("View Stock Case");
+          // TODO: Needs to be updated with implementation of Finnhub
+          System.out.println("Please input a stock ticker you would like to know more about (ex: AAPL).");
+          ticker = myObj.nextLine();
+          
+          // Does listOfStocks contain ticker?
+          if (listOfStocks.containsKey(ticker)) {
+            System.out.println(ticker + ": " + listOfStocks.get(ticker));
+          }
+          else {
+            System.out.println("No stock with name: " + ticker);
+            break;
+          }
           break;
         case 6: // 6: Buy Stock
-          // TODO
+          // TODO: Fix buying problem
           System.out.println("Please input a stock ticker you would like to buy (ex: AAPL).");
           ticker = myObj.nextLine();
 
@@ -130,7 +139,7 @@ public class Main {
           mainUser.buyStock(listOfStocks.get(ticker), Double.parseDouble(amount));
           break;
         case 7: // 7: Sell Stock
-          // TODO
+          // TODO: Fix selling problem
           System.out.println("Please input a stock ticker you would like to sell (ex: AAPL).");
           ticker = myObj.nextLine();
           System.out.println("Please input the amount you would like to sell.");

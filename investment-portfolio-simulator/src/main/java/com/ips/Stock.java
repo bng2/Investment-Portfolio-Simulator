@@ -1,3 +1,5 @@
+import java.io.*;
+
 public class Stock implements Instruments {
   String ticker;
   double price;

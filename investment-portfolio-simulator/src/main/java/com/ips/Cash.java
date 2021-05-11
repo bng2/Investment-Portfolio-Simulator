@@ -1,3 +1,5 @@
+import java.io.*;
+
 public class Cash implements Instruments {
   //Cash is different from balance
   //Cash is the amount of money deposited to gain interest
@@ -41,4 +43,5 @@ public class Cash implements Instruments {
   public String toString() {
     return "(Cash)Total Cash: " + cash; 
   }
+
 }

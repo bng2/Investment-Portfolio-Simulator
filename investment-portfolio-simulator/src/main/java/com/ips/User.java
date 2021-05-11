@@ -1,7 +1,13 @@
 import java.util.*;
 import java.lang.Math;
+import java.io.*;
+import java.util.Locale;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.ParseException;
+import org.json.simple.parser.JSONParser;
 
-public class User {
+public class User implements Serializable {
   Map<Instruments, Double> portfolio = new HashMap<>();
   double balance;
   String name;
@@ -38,6 +44,8 @@ public class User {
 
       portfolio.put(input, count + quantity);
       subtractBalance(input.getPrice() * quantity);
+      
+      System.out.println("You just purchased " + quantity + " of " + input.getName() + " stock for $" + input.getPrice() * quantity + ".");
     }
     else {
       System.out.println("You do not have enough money to purchase this amount of stock.");
@@ -48,9 +56,11 @@ public class User {
     if (portfolio.get(input) != null) {
       if (quantity <= portfolio.get(input)) {
         double count = portfolio.get(input);
-  
+
         portfolio.put(input, count - quantity);
         addBalance(input.getPrice() * quantity);
+
+        System.out.println("You just sold " + quantity + " of " + input.getName() + " stock for $" + input.getPrice() * quantity + ".");
       }
       else {
         System.out.println("You do not have the specicifed number of stocks to sell.");
@@ -68,9 +78,11 @@ public class User {
       if (portfolio.get(input) != null) {
         count = portfolio.get(input);
       }
-      
+
       portfolio.put(input, count + quantity);
       subtractBalance(input.getPrice() * quantity);
+
+      System.out.println("You just purchased " + quantity + " of " + input.getName() + " bond for $" + input.getPrice() * quantity + ".");
     }
     else {
       System.out.println("You do not have enough money to purchase this amount of bond.");
@@ -80,13 +92,15 @@ public class User {
   public void sellBond(TreasuryBond input, double quantity) {
     if (portfolio.get(input) != null) {
       if (quantity <= portfolio.get(input)) {
-        double count = portfolio.get(input);;
-  
+        double count = portfolio.get(input);
+
         portfolio.put(input, count - quantity);
         addBalance(input.getPrice() * quantity);
+
+        System.out.println("You just sold " + quantity + " of " + input.getName() + " bond for $" + (input.getPrice() * quantity) + ".");
       }
       else {
-        System.out.println("You do not have the specicifed number of bonds to sell.");
+        System.out.println("You do not have the specified number of bonds to sell.");
       }
     }
     else {
@@ -98,6 +112,8 @@ public class User {
     if (amount <= balance) {
       account.addBalance(amount);
       portfolio.put(account, account.getPrice());
+
+      System.out.println("You just deposited $" + amount + " into your savings account.");
     }
     else {
       System.out.println("Your account does not have enough to deposit.");
@@ -108,6 +124,8 @@ public class User {
     if (amount <= account.getPrice()) {
       account.subtractBalance(amount);
       portfolio.put(account, account.getPrice());
+
+      System.out.println("You just withdrew $" + amount + " from your savings account.");
     }
     else {
       System.out.println("Your account does not have enough to withdraw.");

@@ -38,30 +38,36 @@ public class Main {
   }
   
   public static void main(String[] args) {
-    /*
-    User test = new User("John", 10000.0);
-    User user1 = load();
-    */
-
     // TODO: Take user input -> Scanner
     // TODO: Finnhub API
 
     System.out.println("Welcome to the Investment Portfolio Simulator!");
 
     User mainUser;
-    File f = new File("user.ser");
-    if (f.exists()) {
+    File f = new File("user.ser");    // Create a File object
+    if (f.exists()) {                 // Check that the file exists and if it does, load into mainUser
       mainUser = load();
       System.out.println("Your old portfolio has been loaded in.");
-    } else {
+    } else {                          // If the file does not exist, initialize mainUser via setup() method
       mainUser = setup();
       System.out.println("You have started a new portfolio with the starting balance of $10,000.");
     }
 
+    // Test Stocks
+    Map<String, Stock> listOfStocks = new HashMap<>();
+    Stock AAPL = new Stock("AAPL", 132.54, 0.20, 0.002);
+    Stock TSLA = new Stock("TLSA", 684.90, 0.00, 0.00);
+    Stock AMZN = new Stock("AMZN", 3386.49, 0.00, 0.00);
+    listOfStocks.put("AAPL", AAPL);
+    listOfStocks.put("TSLA", TSLA);
+    listOfStocks.put("AMZN", AMZN);
+
+    // Read User Input
     Scanner myObj = new Scanner(System.in);
     int option = 0;
     
-    while (option < 12) {
+    // User Interface
+    while (option < 13) {
       System.out.println("What would you like to do?");
       System.out.println("1: Check Balance");
       System.out.println("2: Add Balance");
@@ -80,7 +86,7 @@ public class Main {
       option = Integer.parseInt(symbol);
       String ticker = "";
       String amount = "";
-      
+
       switch (option) {
         case 1: // 1: Check Balance
           mainUser.viewBalance();
@@ -107,22 +113,29 @@ public class Main {
           break;
         case 6: // 6: Buy Stock
           // TODO
-          System.out.println("To be implemented");
-          System.out.println("View Stock Case");
-          System.out.println("Please input a stock ticker you would like to buy (ex: AAPL)");
+          System.out.println("Please input a stock ticker you would like to buy (ex: AAPL).");
           ticker = myObj.nextLine();
-          System.out.println("Please input the amount you would like to buy");
+
+          // Does listOfStocks contain ticker?
+          if (listOfStocks.containsKey(ticker)) {
+            System.out.println("Found " + ticker + ": " + listOfStocks.get(ticker));
+          }
+          else {
+            System.out.println("No stock with name: " + ticker);
+            break;
+          }
+          
+          System.out.println("Please input the amount you would like to buy.");
           amount = myObj.nextLine();
-          //System.out.println(mainUser.buyStock(ticker, Double.parseDouble(amount)));
+          mainUser.buyStock(listOfStocks.get(ticker), Double.parseDouble(amount));
           break;
         case 7: // 7: Sell Stock
           // TODO
-          System.out.println("To be implemented");
-          System.out.println("Please input a stock ticker you would like to sell (ex: AAPL)");
+          System.out.println("Please input a stock ticker you would like to sell (ex: AAPL).");
           ticker = myObj.nextLine();
-          System.out.println("Please input the amount you would like to sell");
+          System.out.println("Please input the amount you would like to sell.");
           amount = myObj.nextLine();
-          //System.out.println(mainUser.sellStock(ticker, Double.parseDouble(amount)));
+          mainUser.sellStock(listOfStocks.get(ticker), Double.parseDouble(amount));
           break;
         case 8: // 8: Buy Bond"
           // TODO
@@ -156,6 +169,7 @@ public class Main {
       }
       System.out.println("");
     }
+    
     /*
     System.out.println("Adding $500 to our balance");
     test.addBalance(500);

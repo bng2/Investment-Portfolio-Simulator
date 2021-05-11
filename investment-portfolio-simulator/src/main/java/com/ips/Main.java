@@ -67,7 +67,7 @@ public class Main {
     int option = 0;
     
     // User Interface
-    while (option < 13) {
+    while (option < 13) { // Selecting any option besides 13 will keep the program running
       System.out.println("What would you like to do?");
       System.out.println("1: Check Balance");
       System.out.println("2: Add Balance");
@@ -137,7 +137,7 @@ public class Main {
           amount = myObj.nextLine();
           mainUser.sellStock(listOfStocks.get(ticker), Double.parseDouble(amount));
           break;
-        case 8: // 8: Buy Bond"
+        case 8: // 8: Buy Bond
           // TODO
           System.out.println("To be implemented");
           System.out.println("Buy Bond Case");
@@ -148,14 +148,16 @@ public class Main {
           System.out.println("Sell Bond Case");
           break;
         case 10: // 10: Deposit
-          // TODO
-          System.out.println("To be implemented");
-          System.out.println("Deposit into savings Case");
+          System.out.println("Please input the amount you would like to deposit into your savings account.");
+          amount = myObj.nextLine();
+          mainUser.deposit(Double.parseDouble(amount));
+          mainUser.viewBalance();
           break;
         case 11: // 11: Withdraw
-          // TODO
-          System.out.println("To be implemented");
-          System.out.println("Withdraw from savings Case");
+          System.out.println("Please input the amount you would like to withdraw from your savings account.");
+          amount = myObj.nextLine();
+          mainUser.withdraw(Double.parseDouble(amount));
+          mainUser.viewBalance();
           break;
         case 12: // 12: Reset User
           mainUser = setup();
@@ -163,34 +165,11 @@ public class Main {
           break;
         case 13: // 13: Exit
           save(mainUser);
-          System.out.println("Your portfolio has been saved!");
-          System.out.println("Thank you for using the Investment Portfolio Simulator!");
+          System.out.println("Your portfolio has been saved.");
+          System.out.println("Thank you for playing the Investment Portfolio Simulator!");
           break;
       }
       System.out.println("");
     }
-    
-    /*
-    System.out.println("Adding $500 to our balance");
-    test.addBalance(500);
-    test.viewBalance();
-    
-    Stock AAPL = new Stock("AAPL", 132.54, 0.20, 0.002);
-    Stock TSLA = new Stock("TLSA", 684.90, 0.00, 0.00);
-    Stock AMZN = new Stock("AMZN", 3386.49, 0.00, 0.00);
-    
-    System.out.println("Purchasing 2 shares of AAPL and 1 share of TSLA.");
-    
-    test.buyStock(AAPL, 1);
-    test.buyStock(TSLA, 1);
-    test.buyStock(AAPL, 1);
-    test.buyStock(AAPL, 1);
-    test.sellStock(AAPL, 1);
-    
-    test.viewPortfolio();
-    test.viewBalance();
-    test.totalPortfolioValue();
-    System.out.println("$9550.02 + $949.98 = $10500, which is our starting balance.");
-    */
   }
 }

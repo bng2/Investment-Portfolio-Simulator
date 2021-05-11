@@ -106,6 +106,7 @@ public class User implements Serializable {
 
   public void deposit(double amount) {
     if (amount <= balance) {
+      balance = balance - amount;
       account.addBalance(amount);
       portfolio.put(account, account.getPrice());
 
@@ -118,6 +119,7 @@ public class User implements Serializable {
 
   public void withdraw(double amount) {
     if (amount <= account.getPrice()) {
+      balance = balance + amount;
       account.subtractBalance(amount);
       portfolio.put(account, account.getPrice());
 

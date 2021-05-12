@@ -1,6 +1,7 @@
 import java.io.*;
 
 public class TreasuryBond implements Instruments {
+  private static final long serialVersionUID = 4L;
   String name;
   double price;
   double interestRate = 0.161; //March 2021 10 years government bond interest rate
@@ -37,6 +38,6 @@ public class TreasuryBond implements Instruments {
 
   @Override
   public String toString() {
-    return "(Treasury Bond)Name: " + name + ",Price: " + price; 
+    return "(Treasury Bond)Name: " + name + ", Price: " + price; 
   }
 }

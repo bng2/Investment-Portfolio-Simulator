@@ -1,6 +1,7 @@
 import java.io.*;
 
 public class Stock implements Instruments {
+  private static final long serialVersionUID = 4L;
   String ticker;
   double price;
   double dividend;

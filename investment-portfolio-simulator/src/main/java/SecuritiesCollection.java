@@ -29,6 +29,9 @@ public class SecuritiesCollection implements Serializable {
 
   @Override
   public String toString() {
-    return security.toString() + "; Quantity: " + quantity;
+    if(security instanceof Stock) {
+      return security.toString() + "; Quantity: " + quantity;
+    }
+    return security.toString();
   }
 }

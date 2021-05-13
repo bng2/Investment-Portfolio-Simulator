@@ -97,7 +97,7 @@ public class User implements Serializable {
 
     try {
       final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-      System.out.println(input + ": " + response.body());
+      //System.out.println(input + ": " + response.body());
 
       JSONObject object = (JSONObject) new JSONParser().parse(response.body());
       Object object1 = object.get("c");
@@ -169,10 +169,9 @@ public class User implements Serializable {
       .uri(URI.create(apiRequest1))
       .build();
     
-    
     try {
       final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-      System.out.println(input + ": " + response.body());
+      //System.out.println(input + ": " + response.body());
 
       JSONObject object = (JSONObject) new JSONParser().parse(response.body());
       Object object1 = object.get("c");
@@ -207,45 +206,103 @@ public class User implements Serializable {
     }
   }
 
-  // TODO: implement below with real treasury bonds
-  /*
-  public void buyBond(TreasuryBond input, double quantity) {
-    if ((input.getPrice() * quantity) <= balance) {
-      double count = 0;
+  public void buyBond(String input, double price) {
+    String name = "";
+    TreasuryBond tb = new TreasuryBond("", 0.0);
+    SecuritiesCollection secCollection = new SecuritiesCollection(tb, 0.0);
+    if (Integer.parseInt(input) == 1 || Integer.parseInt(input) == 2) {
+      if (price <= balance) {
+        //old price
+        double count = 0;
+  
+        if (Integer.parseInt(input) == 1) {
+          // 20 year bond
+          name = "20 year";
+          
+          if (portfolio.get(name) != null) {
+            count = portfolio.get(name).getQuantity();
+          }
 
-      if (portfolio.get(input) != null) {
-        count = portfolio.get(input);
-      }
-
-      portfolio.put(input, count + quantity);
-      subtractBalance(input.getPrice() * quantity);
-
-      System.out.println("You just purchased " + quantity + " of " + input.getName() + " bond for $" + input.getPrice() * quantity + ".");
-    }
-    else {
-      System.out.println("You do not have enough money to purchase this amount of bond.");
-    }
-  }
-
-  public void sellBond(TreasuryBond input, double quantity) {
-    if (portfolio.get(input) != null) {
-      if (quantity <= portfolio.get(input)) {
-        double count = portfolio.get(input);
-
-        portfolio.put(input, count - quantity);
-        addBalance(input.getPrice() * quantity);
-
-        System.out.println("You just sold " + quantity + " of " + input.getName() + " bond for $" + (input.getPrice() * quantity) + ".");
+          tb = new TreasuryBond(name, count + price);
+          secCollection = new SecuritiesCollection(tb, count + price);
+        }
+        else if (Integer.parseInt(input) == 2) {
+          // 30 year bond
+          name = "30 year";
+          
+          if (portfolio.get(name) != null) {
+            count = portfolio.get(name).getQuantity();
+          }
+          
+          tb = new TreasuryBond(name, count + price);
+          secCollection = new SecuritiesCollection(tb, count + price);
+        }
+  
+        portfolio.put(name, secCollection);
+        subtractBalance(price);
+  
+        System.out.println("You just purchased a " + name + " treasury bond for $" + price + ".");
       }
       else {
-        System.out.println("You do not have the specified number of bonds to sell.");
+        System.out.println("You do not have enough money to purchase this amount of bond.");
       }
     }
     else {
-      System.out.println("Your portfolio does not contain this bond.");
+      System.out.println("Invalid Input");
     }
   }
-  */
+
+  public void sellBond(String input, double price) {
+    String name = "";
+    TreasuryBond tb = new TreasuryBond("", 0.0);
+    SecuritiesCollection secCollection = new SecuritiesCollection(tb, 0.0);
+    
+    if (Integer.parseInt(input) == 1) {
+      // 20 year bond
+      name = "20 year";
+      double count = 0;
+      if (portfolio.get(name) != null) {
+        if (portfolio.get(name).getQuantity() > price) {
+          count = portfolio.get(name).getQuantity();
+          tb = new TreasuryBond(name, count - price);
+          secCollection = new SecuritiesCollection(tb, count - price);
+          portfolio.put(name, secCollection);
+          addBalance(price);
+          System.out.println("You just sold a " + name + " treasury bond for $" + price + ".");
+        } 
+        else {
+          System.out.println("Your selling price is greater than the current value of your bond.");
+        }
+      }
+      else {
+        System.out.println("You do not own a bond of this type.");
+      }
+    }
+    else if (Integer.parseInt(input) == 2) {
+      // 30 year bond
+      name = "30 year";
+      double count = 0;
+      if (portfolio.get(name) != null) {
+        if (portfolio.get(name).getQuantity() > price) {
+          count = portfolio.get(name).getQuantity();
+          tb = new TreasuryBond(name, count - price);
+          secCollection = new SecuritiesCollection(tb, count - price);
+          portfolio.put(name, secCollection);
+          addBalance(price);
+          System.out.println("You just sold a " + name + " treasury bond for $" + price + ".");
+        } 
+        else {
+          System.out.println("Your selling price is greater than the current value of your bond.");
+        }
+      }
+      else {
+        System.out.println("You do not own a bond of this type.");
+      }
+    }
+    else {
+      System.out.println("Invalid Input");
+    }
+  }
 
   public void deposit(double amount) {
     if (amount <= balance) {
@@ -286,35 +343,29 @@ public class User implements Serializable {
 
     try {
       for (String a : portfolio.keySet()) {
-        if(portfolio.get(a).getSecurity() instanceof Stock) {
-          String apiRequest1 = "https://finnhub.io/api/v1/quote?symbol="+a+"&token="+apiKey;
+        if (portfolio.get(a).getSecurity() instanceof Stock) {
+          String apiRequest1 = "https://finnhub.io/api/v1/quote?symbol=" + a + "&token=" + apiKey;
           HttpClient client = HttpClient.newHttpClient();
-          HttpRequest request = HttpRequest.newBuilder()
-            .GET()
-            .uri(URI.create(apiRequest1))
-            .build();
+          HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(apiRequest1)).build();
 
           final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-          System.out.println(a + ": " + response.body());
+          //System.out.println(a + ": " + response.body());
           JSONObject object = (JSONObject) new JSONParser().parse(response.body());
           Object object1 = object.get("c");
           double price = Double.parseDouble(object1.toString());
 
-          //updates price of stock TODO: (update wtihout creating new securtity or collection)
+          //updates price of stock
           Stock currentStock = new Stock(a, price, 0, 0);
           SecuritiesCollection secCollection = new SecuritiesCollection(currentStock, portfolio.get(a).getQuantity());
           portfolio.put(a, secCollection);
 
           total += secCollection.getSecurity().getPrice() * secCollection.getQuantity();
-        } 
-        else if (portfolio.get(a).getSecurity() instanceof Cash){
+        } else {
           total += portfolio.get(a).getSecurity().getPrice();
         }
-        else {
-          total += portfolio.get(a).getSecurity().getPrice() * portfolio.get(a).getQuantity();
-        }
       }
-      System.out.println("Total Portfolio Value: $" + total);
+      double roundOff = Math.round(total * 100.0) / 100.0;
+      System.out.println("Total Portfolio Value: $" + roundOff);
 
     } catch (IOException | InterruptedException | ParseException e) {
       e.printStackTrace();
@@ -353,7 +404,7 @@ public class User implements Serializable {
             .build();
 
           final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-          System.out.println(a + ": " + response.body());
+          //System.out.println(a + ": " + response.body());
           JSONObject object = (JSONObject) new JSONParser().parse(response.body());
           Object object1 = object.get("c");
           double price = Double.parseDouble(object1.toString());

@@ -6,6 +6,7 @@ import org.json.simple.parser.ParseException;
 
 public class Main {
   private static final long serialVersionUID = 4L;
+
   // Loads and returns the saved User
   public static User load() {
     User u = new User("", 0);
@@ -41,9 +42,6 @@ public class Main {
   }
   
   public static void main(String[] args) throws IOException, ParseException {
-    // TODO: Take user input -> Scanner
-    // TODO: Finnhub API
-
     System.out.println("Welcome to the Investment Portfolio Simulator!");
 
     User mainUser;
@@ -56,8 +54,7 @@ public class Main {
       System.out.println("You have started a new portfolio with the starting balance of $10,000.");
     }
 
-    // Test Stocks
-    
+    // Test Stocks (hard-coded)
     /*
     Map<String, Stock> listOfStocks = new HashMap<>();
     Stock AAPL = new Stock("AAPL", 132.54, 0.20, 0.002);
@@ -66,13 +63,12 @@ public class Main {
     listOfStocks.put("AAPL", AAPL);
     listOfStocks.put("TSLA", TSLA);
     listOfStocks.put("AMZN", AMZN);
-    */
-    
+    */ 
 
     // Read User Input
     Scanner myObj = new Scanner(System.in);
     int option = 0;
-    
+
     // User Interface
     while (option < 13) { // Selecting any option besides 13 will keep the program running
       System.out.println("Enter the number of the action you would like to perform.");
@@ -112,13 +108,14 @@ public class Main {
           break;
         case 4: // 4: View Portfolio
           mainUser.viewPortfolio();
+          mainUser.totalPortfolioValue();
           break;
         case 5: // 5: View Stock
-          // TODO: Needs to be updated with implementation of Finnhub
           System.out.println("Please input a stock ticker you would like to know more about (ex: AAPL).");
           ticker = myObj.nextLine();
           mainUser.viewStock(ticker);
-          // Does listOfStocks contain ticker?
+
+          // Does listOfStocks contain ticker (hard-coded stock only)?
           /*
           if (listOfStocks.containsKey(ticker)) {
             System.out.println(ticker + ": " + listOfStocks.get(ticker));
@@ -128,13 +125,13 @@ public class Main {
             break;
           }
           */
+
           break;
         case 6: // 6: Buy Stock
-          // TODO: Fix buying problem
           System.out.println("Please input a stock ticker you would like to buy (ex: AAPL).");
           ticker = myObj.nextLine();
 
-          // Does listOfStocks contain ticker?
+          // Does listOfStocks contain ticker (hard-coded stock only)?
           /*
           if (listOfStocks.containsKey(ticker)) {
             System.out.println("Found " + ticker + ": " + listOfStocks.get(ticker));
@@ -150,7 +147,6 @@ public class Main {
           mainUser.buyStock(ticker, Double.parseDouble(amount));
           break;
         case 7: // 7: Sell Stock
-          // TODO: Fix selling problem
           System.out.println("Please input a stock ticker you would like to sell (ex: AAPL).");
           ticker = myObj.nextLine();
           System.out.println("Please input the amount you would like to sell.");
@@ -159,14 +155,20 @@ public class Main {
           //mainUser.sellStock(listOfStocks.get(ticker), Double.parseDouble(amount));
           break;
         case 8: // 8: Buy Bond
-          // TODO
-          System.out.println("To be implemented");
-          System.out.println("Buy Bond Case");
+          System.out.println("Would you like to buy a 20 year (2.20% interest) or 30 year (2.30% interest) treasury bond?");
+          System.out.println("Please input 1 for a 20 year bond and 2 for a 30 year bond.");
+          ticker = myObj.nextLine();
+          System.out.println("Please input the amount you would like to buy.");
+          amount = myObj.nextLine();
+          mainUser.buyBond(ticker, Double.parseDouble(amount));
           break;
         case 9: // 9: Sell Bond
-          // TODO
-          System.out.println("To be implemented");
-          System.out.println("Sell Bond Case");
+          System.out.println("Would you like to sell a 20-Year or 30-Year Treasury Bond?");
+          System.out.println("Please input 1 for a 20 year bond and 2 for a 30 year bond.");
+          ticker = myObj.nextLine();
+          System.out.println("Please input the amount you would like to sell.");
+          amount = myObj.nextLine();
+          mainUser.sellBond(ticker, Double.parseDouble(amount));
           break;
         case 10: // 10: Deposit
           System.out.println("Please input the amount you would like to deposit into your savings account.");

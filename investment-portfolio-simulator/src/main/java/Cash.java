@@ -2,8 +2,8 @@ import java.io.*;
 
 public class Cash implements Instruments {
   private static final long serialVersionUID = 4L;
-  //Cash is different from balance
-  //Cash is the amount of money deposited to gain interest
+  // Cash is different from balance
+  // Cash is the amount of money deposited to gain interest
   double cash;
   double interestRate = 0.07; // 2021 National Average Interest Rate for Savings Accounts
 
@@ -15,7 +15,7 @@ public class Cash implements Instruments {
     double interestRatePercentage = interestRate * 100;
     System.out.println("The current interest rate is " + interestRatePercentage + "%.");
   }
-  
+
   public void setPrice(double amount) {
     //N/A
   }
@@ -44,5 +44,4 @@ public class Cash implements Instruments {
   public String toString() {
     return "(Cash)Total Cash: " + cash; 
   }
-
 }

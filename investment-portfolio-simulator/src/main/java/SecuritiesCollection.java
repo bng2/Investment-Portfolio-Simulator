@@ -1,6 +1,8 @@
 import java.util.*;
 import java.io.*;
 
+//Used as an object to store an Instrument object as well as the quantity
+//For cash and treasury bond, quantity is still stored and used, but not outputted due to redundancy in price
 public class SecuritiesCollection implements Serializable {
   private static final long serialVersionUID = 4L;
   public Instruments security;

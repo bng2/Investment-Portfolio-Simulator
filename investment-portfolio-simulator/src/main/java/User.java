@@ -14,13 +14,15 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 import org.json.simple.parser.JSONParser;
 
+//User class implemnts buying, selling of instruments
 public class User implements Serializable {
   private static final long serialVersionUID = 4L;
   private Map<String, SecuritiesCollection> portfolio = new HashMap<>();
   double balance;
   String name;
   Cash account;
-    
+  
+  //initalizes user with a name, balance, and empty Cash
   public User(String name, double balance) {
     this.name = name;
     this.balance = balance;
@@ -44,6 +46,7 @@ public class User implements Serializable {
     return balance;
   }
 
+  //gets the current price of the stock using finnhub
   public void viewStock(String input) throws IOException, ParseException {
     Properties props = new Properties();
     InputStream inputStream = User.class.getClassLoader().getResourceAsStream("api.properties");
@@ -80,6 +83,9 @@ public class User implements Serializable {
     }
   }
 
+  //first gets the current price by api
+  //then creates stock and puts into securitycollection
+  //places into map
   public void buyStock(String input, double quantity) throws IOException, ParseException {
     Properties props = new Properties();
     InputStream inputStream = User.class.getClassLoader().getResourceAsStream("api.properties");
@@ -154,6 +160,7 @@ public class User implements Serializable {
     */
   }
 
+  //similar to buy stock, but instead removes from the price and/or qunatity of instrument
   public void sellStock(String input, double quantity) throws IOException, ParseException  {
     Properties props = new Properties();
     InputStream inputStream = User.class.getClassLoader().getResourceAsStream("api.properties");
@@ -206,6 +213,8 @@ public class User implements Serializable {
     }
   }
 
+  //initializes bond based on 20 or 30 year
+  //then places into a securitycollection and then into map
   public void buyBond(String input, double price) {
     String name = "";
     TreasuryBond tb = new TreasuryBond("", 0.0);
@@ -252,6 +261,7 @@ public class User implements Serializable {
     }
   }
 
+  //similar to sell bond, but just removes a select amount of value from the selected bond
   public void sellBond(String input, double price) {
     String name = "";
     TreasuryBond tb = new TreasuryBond("", 0.0);
@@ -304,6 +314,7 @@ public class User implements Serializable {
     }
   }
 
+  //adds to the cash security collection if enough money
   public void deposit(double amount) {
     if (amount <= balance) {
       balance = balance - amount;
@@ -318,6 +329,7 @@ public class User implements Serializable {
     }
   }
 
+  //subtracts the cash security collection
   public void withdraw(double amount) {
     if (amount <= account.getPrice()) {
       balance = balance + amount;
@@ -332,6 +344,7 @@ public class User implements Serializable {
     }
   }
 
+  //does calculations to print out the total protfolio value 
   public void totalPortfolioValue() throws IOException, ParseException {
     double total = 0;
     Properties props = new Properties();
@@ -384,6 +397,7 @@ public class User implements Serializable {
     */
   }
 
+  //iterates through the map to print out the securitycollection/instrument information
   public void viewPortfolio() throws IOException, ParseException {
     String output = "\nPortfolio:\n";
     Properties props = new Properties();
